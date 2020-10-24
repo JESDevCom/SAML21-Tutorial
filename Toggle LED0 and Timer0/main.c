@@ -71,7 +71,7 @@ int main(void)
 							 
 
 	/* Timer 0 CTRLA Settings */
-	// (Pg. 641) Clock Divisions: 1024, Counter Size: 16-bits
+	// (Pg. 641) Clock Divisions: 1024, Counter Size: 8-bits, Still Run in Standby Mode (Not needed)
 	REG_TC0_CTRLA |= (TC_CTRLA_PRESCALER_DIV1024 | TC_CTRLA_MODE_COUNT8 | TC_CTRLA_RUNSTDBY); 
 	while( TC0->COUNT8.CTRLA.bit.PRESCSYNC == 1){}
 		
@@ -82,7 +82,7 @@ int main(void)
 	TC0->COUNT8.WAVE.reg = TC_WAVE_WAVEGEN_MFRQ;		// (Pg. 651) Mode: Freq Match, Top Value = CC0, Toggle Output.				
 					
 	/* Timer 0 Compare Value */
-	TC0->COUNT8.CC[0].reg = 180;						// ADJUST HERE
+	TC0->COUNT8.CC[0].reg = 250;						// ADJUST HERE
 	while( TC0->COUNT8.SYNCBUSY.bit.CC0 == 1 ){}		// Wait for CC0 to be set
 
 	// Enable Interrupt Vectors
