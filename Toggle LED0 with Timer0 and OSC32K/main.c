@@ -19,7 +19,7 @@
  *			Freq = CPU_freq / ([Port Delay] * [CPU_DIV] * [GCLK0_DIV] * [CC0 + 1])
  *
  *			Example: (**Count Up**)
- *			Freq = 32768kHz / ([2] * [1] * [64] * [50+1]) = 5.0196 [Hz]   <--- Checked Calc with Fluke 87V, Measured: 6.97 Hz
+ *			Freq = 32768kHz / ([1.44] * [1] * [64] * [251]) = 1.417 [Hz]   <--- Checked Calc with Fluke 87V, Measured: 1.42 Hz
  *
  * Clock Architecture:
  *		32KHz OSC --> MCLK (IN) --> |DIV: 1| --> MCLK (OUT) --> GCLK0 (IN) --> |DIV: 1| --> GCLK0 (OUT) --> TC0 (IN) --> |DIV: 64|
