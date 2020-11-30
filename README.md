@@ -7,3 +7,6 @@ Part I. Ports & Timers & Clocks
 3. Toggling LED0 with Timer 0 via 32KHz OSC
 3. Toggling LED0 with Timer 0 via 32KHz ULP OSC
 4. Toggling LED0 with Timer 0 via 32KHz XOSC
+
+Part II. Ports & Timers & Buttons
+2.1 Enable LED0 with Button
