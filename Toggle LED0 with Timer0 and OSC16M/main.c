@@ -105,7 +105,7 @@ int main(void)
 // =====================================================================
 void TC0_Handler(void){
 
-	/* =========== Service Error Flag =========== */
+	/* ========= Service Overflow Flag ========= */
 	if ( TC0->COUNT8.INTFLAG.bit.OVF == 1 ){
 		__asm("nop");
 	}
