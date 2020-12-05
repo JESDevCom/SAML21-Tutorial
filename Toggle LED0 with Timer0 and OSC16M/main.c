@@ -16,10 +16,10 @@
  *		SAML21 Datasheet
  *
  *		Output Frequency Formula:
- *			Freq = CPU_freq / ([#bit Timer] * [CPU_DIV] * [GCLK0_DIV] * [CC0])
+ *			Freq = CPU_freq / ([Port_Delay] * [CPU_DIV] * [GCLK0_DIV] * [CC0])
  *
  *			Example: (**Count Up**)
- *			Freq = 16MHz / ([8] * [1] * [1024] * [180]) = 10.85 [Hz]   <--- Checked Calc with Fluke 87V
+ *			Freq = 4MHz / ([2] * [1] * [1024] * [180]) = 10.85 [Hz]   <--- Checked Calc with Fluke 87V
  *
  * Clock Architecture:
  *		16MHz CPU --> MCLK (IN) --> |DIV: 1| --> MCLK (OUT) --> GCLK0 (IN) --> |DIV: 1| --> GCLK0 (OUT) --> TC0 (IN) --> |DIV: 1024|
@@ -45,9 +45,7 @@ int main(void)
 	REG_PORT_DIRSET1 = led; //Set as Output
 	delay();
 	//REG_PORT_OUTCLR1 = led; //LED ON
-	//delay();
 	REG_PORT_OUTSET1 = led; //LED OFF
-	//delay();
 
 
 	/* Enable TC0 in Interrupt Vector */
@@ -56,7 +54,7 @@ int main(void)
 	
 	/* Enable Timer0 Access to Master Clock (MCLK) Peripheral Bus (Pg. 146) */
 	MCLK->APBAMASK.bit.GCLK_   = 1; // (Pg. 156) General CLK should already be enabled by default, but set anyways
-	MCLK->APBAMASK.bit.MCLK_   = 1; // (Pg. 156) Master  CLK should already be enabled by default, but set anyway
+	MCLK->APBAMASK.bit.MCLK_   = 1; // (Pg. 156) Master  CLK should already be enabled by default, but set anyways
 	MCLK->APBCMASK.bit.TCC0_   = 1; // (Pg. 159) Timer Counter 0
 	MCLK->APBCMASK.bit.TC0_    = 1; // (Pg. 159) Timer 0
 	MCLK->APBDMASK.bit.EVSYS_  = 0; // (Pg. 161) Event System; Enable for External Triggering of Counter 									
@@ -71,7 +69,7 @@ int main(void)
 							 
 
 	/* Timer 0 CTRLA Settings */
-	// (Pg. 641) Clock Divisions: 1024, Counter Size: 16-bits
+	// (Pg. 641) Clock Divisions: 1024, Counter Size: 8-bits, Still Run in Standby Mode (Not needed)
 	REG_TC0_CTRLA |= (TC_CTRLA_PRESCALER_DIV1024 | TC_CTRLA_MODE_COUNT8 | TC_CTRLA_RUNSTDBY); 
 	while( TC0->COUNT8.CTRLA.bit.PRESCSYNC == 1){}
 		
@@ -82,7 +80,7 @@ int main(void)
 	TC0->COUNT8.WAVE.reg = TC_WAVE_WAVEGEN_MFRQ;		// (Pg. 651) Mode: Freq Match, Top Value = CC0, Toggle Output.				
 					
 	/* Timer 0 Compare Value */
-	TC0->COUNT8.CC[0].reg = 180;						// ADJUST HERE
+	TC0->COUNT8.CC[0].reg = 250;						// ADJUST HERE
 	while( TC0->COUNT8.SYNCBUSY.bit.CC0 == 1 ){}		// Wait for CC0 to be set
 
 	// Enable Interrupt Vectors
@@ -105,7 +103,7 @@ int main(void)
 // =====================================================================
 void TC0_Handler(void){
 
-	/* ========= Service Overflow Flag ========= */
+	/* =========== Overflow Error Flag ========== */
 	if ( TC0->COUNT8.INTFLAG.bit.OVF == 1 ){
 		__asm("nop");
 	}

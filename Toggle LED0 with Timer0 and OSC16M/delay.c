@@ -3,7 +3,8 @@
  *
  * Created: 10/19/2020 1:29:51 PM
  *  Author: John
- */ 
+ */
+
 #include "sam.h"
 #include "delay.h"
 
