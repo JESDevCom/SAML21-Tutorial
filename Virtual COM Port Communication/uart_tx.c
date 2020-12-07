@@ -35,4 +35,6 @@ void TX_string(char *string){
 	while(*string){
 		TX_char(*string++);
 	}
+	TX_char('\r');
+	TX_char('\n');
 }

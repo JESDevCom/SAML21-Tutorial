@@ -58,8 +58,7 @@ void SERCOM3_Handler(){
 	// This flag is set when there are unread data in DATA reg.
 	// Flag cleared by reading data from DATA.
 	if(SERCOM3->USART.INTFLAG.bit.RXC == 1){
-		RX_CHAR = RX_char();
-
+		RX_char();
 	}
 	
 	/*

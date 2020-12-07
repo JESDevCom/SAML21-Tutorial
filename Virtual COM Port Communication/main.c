@@ -32,28 +32,27 @@
 ***************************************************/
 #include "main.h"
 
+volatile uint8_t buff_index = 0;
+volatile char BUFFER[5] = {'\0'};
 volatile char RX_CHAR = NULL_CHAR;
 
-char message[] = "Press Lowercase 'o' On Your Keyboard to Toggle the LED\r\n";
+char message[] = "Press Lowercase 'o' On Your Keyboard to Toggle the LED";
 
 
 int main(void)
-{
-    static char prev_char = NULL_CHAR;
-	
+{	
     SystemInit();						/* Initialize the SAM system */
 	init_ports();						/* Initialize ports on board */
 	init_uart(uart_bps_9600);			/* Initialize UART0 on board */
 	TX_string(message);					/* Print Message to Console  */
 				
 
-    /* Replace with your application code */
     while (1) 
     {
 
 		if(RX_CHAR == o_CHAR){ // if the letter lowercase 'o' is entered, toggle led
 			PORT->Group[1].OUTTGL.reg = PORT_PB10;
-			TX_string("LED Toggled\r\n");	// send status back
+			TX_string("LED Toggled");	// send status back
 			RX_CHAR = NULL_CHAR;			// clear RX_CHAR variable
 		}
     }
