@@ -131,7 +131,11 @@ int main(void)
 // =====================================================================
 void TC0_Handler(void){
 
+<<<<<<< Updated upstream
 	/* ========= Service Overflow Flag ========= */
+=======
+	/* ========== Service Overflow Flag ========= */
+>>>>>>> Stashed changes
 	if ( TC0->COUNT8.INTFLAG.bit.OVF == 1 ){
 		__asm("nop");
 	}

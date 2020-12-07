@@ -22,7 +22,7 @@
  *			Freq = 4MHz / ([2] * [1] * [1024] * [180]) = 10.85 [Hz]   <--- Checked Calc with Fluke 87V
  *
  * Clock Architecture:
- *		16MHz CPU --> MCLK (IN) --> |DIV: 1| --> MCLK (OUT) --> GCLK0 (IN) --> |DIV: 1| --> GCLK0 (OUT) --> TC0 (IN) --> |DIV: 1024|
+ *		4 MHz CPU --> MCLK (IN) --> |DIV: 1| --> MCLK (OUT) --> GCLK0 (IN) --> |DIV: 1| --> GCLK0 (OUT) --> TC0 (IN) --> |DIV: 1024|
  *
  * Timer Architecture:
  *		For the purposes of this problem, we will be using a 32-bit timer in 8-bit mode.
