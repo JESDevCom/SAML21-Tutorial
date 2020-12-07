@@ -11,3 +11,6 @@ Part I. Ports & Timers & Clocks
 Part II. Ports & Timers & Buttons
 1. Enable LED0 with Button
 2. Enable LED0 with Debounced Button
+
+Part III. UART 
+1. Virtual COM Port Communication
