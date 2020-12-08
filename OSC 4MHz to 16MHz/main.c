@@ -12,10 +12,19 @@
  * 
  * Results:
  *		We should start at this frequency:
- *			Freq = 4MHz / ([2] * [1] * [1024] * [180]) = 10.85 [Hz]   <--- Checked Calc with Fluke 87V. Measured: 10.85 Hz
+ *			Freq = 4MHz /  ([2] * [1] * [1024] * [180]) = 10.85 [Hz]  <--- Checked Calc with Fluke 87V. Measured: 10.85 Hz @ PORT_PB10
  *
- *		Then after a second we should see:
- *			Freq = 16MHz / ([2] * [1] * [1024] * [180]) = 43.4 [Hz]   <--- Checked Calc with Fluke 87V. Measured: 43.21 Hz
+ *		Then once you uncomment the section in main.c:
+ *			Freq = 16MHz / ([2] * [1] * [1024] * [180]) = 43.4 [Hz]   <--- Checked Calc with Fluke 87V. Measured: 43.21 Hz @ PORT_PB10
+ *
+ *		You can also measure TC0 output at PORT_PB13. Measured: 43.20 Hz @ PORT_PB13, CPU=16MHz
+ *
+ *
+ * Lesson Notes:
+ *		(1) Changing CPU Clock frequencies
+ *		(2) Using PMUX to Connect a Timer's signal to a pin on the board
+ *		(3) Timer setup with interrupts
+ *		(4) Verifying CPU frequency by toggling an LED
  *
  * Resources:
  *		[1] SAM L21 Family Data Sheet
@@ -35,9 +44,9 @@ int main(void)
 	init_timer0();
 	
 	/* Uncomment to see change in frequency at LED 0 (PB_10) */
-	//stop_timer0();
-	//osc_freq_sel(OSC16MHz); // Select 16 MHz CPU clock
-	//start_timer0();
+	stop_timer0();
+	osc_freq_sel(OSC16MHz); // Select 16 MHz CPU clock
+	start_timer0();
 
     /* Replace with your application code */
     while (1) 

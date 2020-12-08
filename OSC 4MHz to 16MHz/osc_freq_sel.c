@@ -17,15 +17,15 @@
 #include "osc_freq_sel.h"
 
 void osc_freq_sel(uint8_t clk_sel){
+
+
+	// Enable Highest Performance Power Mode (Pg. 201) [1]
+	PM->INTFLAG.bit.PLRDY = 1;	// Writing a '1' to this bit clears the Performance Ready Interrupt flag (Pg. 204) [1]
+	PM->PLCFG.bit.PLSEL = 2;	// Enable Performance Level 2 (Pg. 201) [1]
+	while(PM->INTFLAG.bit.PLRDY == 0); // Wait till Ready
 	
 	// Oscillator Frequency Selection (Pg. 234) [1]
 	OSCCTRL->OSC16MCTRL.reg = (OSCCTRL_OSC16MCTRL_ENABLE | clk_sel);
-
-	// Enable Highest Performance Power Mode (Pg. 201) [1]
-	PM->INTFLAG.bit.PLRDY = 1;	// Writing a '1' to this bit clears the Performance Ready Interrupt flag (Pg. 202) [1]
-	PM->PLCFG.bit.PLSEL = 2;	// Enable Performance Level 2
-	while(PM->INTFLAG.bit.PLRDY == 0); // Wait till Ready
-	
 
 }
 

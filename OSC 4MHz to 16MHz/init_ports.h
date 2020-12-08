@@ -32,6 +32,16 @@
 #define ledon()				PORT->Group[portb].DIRSET.reg = led;
 #define ledoff()			PORT->Group[portb].DIRCLR.reg = led;
 
+#define PMUX_A				0
+#define PMUX_B				1
+#define PMUX_C				2
+#define PMUX_D				3
+#define PMUX_E				4
+#define PMUX_F				5
+#define PMUX_G				6
+#define PMUX_H				7
+#define PMUX_I				8
+
 /****************************************************************
 					   Function Prototypes
 ****************************************************************/

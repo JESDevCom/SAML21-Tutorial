@@ -21,6 +21,7 @@
  *		if you clear MC0 flag first in cases when your code spends to much time
  *		inside the interrupt and the interrupt is to fast for your code to 
  *		complete inside the interrupt.
+ *
  */ 
 
 #include "ISR_TC0.h"
@@ -30,7 +31,10 @@
 //                     Interrupt Service: Timer 0
 // =====================================================================
 void TC0_Handler(void){
-
+	
+	/* ============ Disable Interrupt =========== */
+	NVIC_DisableIRQ( TC0_IRQn );
+	
 	/* ========== Service Overflow Flag ========= */
 	/*if ( TC0->COUNT8.INTFLAG.bit.OVF == 1 ){
 	}*/
@@ -48,4 +52,7 @@ void TC0_Handler(void){
 		// Clear TC0 MC0 Interrupt Flag Register
 		TC0->COUNT8.INTFLAG.reg |= TC_INTFLAG_MC0;
 	}
+	
+	/* ============= Enable Interrupt =========== */
+	NVIC_EnableIRQ( TC0_IRQn );
 }
