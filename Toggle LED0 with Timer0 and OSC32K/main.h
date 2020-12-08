@@ -21,5 +21,9 @@
 #define ledon()				PORT->Group[portb].DIRSET.reg = led;
 #define ledoff()			PORT->Group[portb].DIRCLR.reg = led;
 
+// Table 11-5 NVM Software Calibration Area Mapping (Pg. 45)
+#define OSC32KCAL_MASK				0x00001FC0
+#define OSC32KCAL_POS				6
+
 
 #endif /* MAIN_H_ */

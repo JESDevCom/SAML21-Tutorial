@@ -19,7 +19,7 @@
  *			Freq = CPU_freq / ([Port Delay] * [CPU_DIV] * [GCLK0_DIV] * [CC0 + 1])
  *
  *			Example: (**Count Up**)
- *			Freq = 32768kHz / ([1.44] * [1] * [64] * [251]) = 1.417 [Hz]   <--- Checked Calc with Fluke 87V, Measured: 1.42 Hz
+ *			Freq = 32768kHz / ([2] * [1] * [64] * [50]) = 5.12 [Hz]   <--- Checked Calc with Fluke 87V, Measured: 5.02 Hz
  *
  * Clock Architecture:
  *		32KHz OSC --> MCLK (IN) --> |DIV: 1| --> MCLK (OUT) --> GCLK0 (IN) --> |DIV: 1| --> GCLK0 (OUT) --> TC0 (IN) --> |DIV: 64|
@@ -70,9 +70,14 @@ int main(void)
 	MCLK->APBCMASK.bit.TC0_    = 1; // (Pg. 159) Timer 0
 	MCLK->APBDMASK.bit.EVSYS_  = 0; // (Pg. 161) Event System; Enable for External Triggering of Counter
 		
-	// ----------------------- Configure OSC32K -----------------------------
+	// ----------------------- Configure OSC32K ----------------------------- (Pg. 261)
+	
+	// Calibrate [if you don't your timer will not be very accurate]..
+	uint32_t calib = (*((uint32_t*)NVMCTRL_OTP5) & OSC32KCAL_MASK) >> OSC32KCAL_POS;
+	
 	// Enable Oscillator | Enable 32KHz Output | 34 CC Startup Delay
-	OSC32KCTRL->OSC32K.reg = (	OSC32KCTRL_OSC32K_ENABLE |
+	OSC32KCTRL->OSC32K.reg = (	OSC32KCTRL_OSC32K_CALIB(calib) |
+								OSC32KCTRL_OSC32K_ENABLE |
 								OSC32KCTRL_OSC32K_EN32K  |
 								OSC32KCTRL_OSC32K_STARTUP(4));
 	while(OSC32KCTRL->STATUS.bit.OSC32KRDY == 0){} // (Pg. 256)
@@ -131,11 +136,7 @@ int main(void)
 // =====================================================================
 void TC0_Handler(void){
 
-<<<<<<< Updated upstream
-	/* ========= Service Overflow Flag ========= */
-=======
-	/* ========== Service Overflow Flag ========= */
->>>>>>> Stashed changes
+	/* =========== Service Error Flag =========== */
 	if ( TC0->COUNT8.INTFLAG.bit.OVF == 1 ){
 		__asm("nop");
 	}
