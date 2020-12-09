@@ -3,6 +3,7 @@ Collection of Coding Projects for a Microchip SAML21
 
 Part I. CPU Clock
 1. OSC 4MHz to 16MHz
+2. OSC 4MHz to 48MHz
 
 Part II. Ports & Timers & Clocks
 1. Toggling LED0 via Soft-Timer
