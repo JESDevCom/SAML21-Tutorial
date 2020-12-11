@@ -18,29 +18,14 @@
 						   Header Files
 ****************************************************************/
 #include "sam.h"
+#include "sys_def.h"
 #include "delay.h"
 
 /****************************************************************
 						   Definitions
 ****************************************************************/
-#define led					PORT_PB10
-#define porta				0
-#define portb				1
-#define ledset()			PORT->Group[portb].OUTSET.reg = led;
-#define ledclr()			PORT->Group[portb].OUTCLR.reg = led;
-#define ledtgl()			PORT->Group[portb].OUTTGL.reg = led;
-#define ledon()				PORT->Group[portb].DIRSET.reg = led;
-#define ledoff()			PORT->Group[portb].DIRCLR.reg = led;
 
-#define PMUX_A				0
-#define PMUX_B				1
-#define PMUX_C				2
-#define PMUX_D				3
-#define PMUX_E				4
-#define PMUX_F				5
-#define PMUX_G				6
-#define PMUX_H				7
-#define PMUX_I				8
+
 
 /****************************************************************
 					   Function Prototypes

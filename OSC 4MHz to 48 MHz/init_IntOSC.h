@@ -1,7 +1,7 @@
 /*
- * ISR_TC0.h
+ * init_IntOSC.h
  *
- * Created: 12/2/2020 7:34:37 PM
+ * Created: 12/10/2020 2:01:21 PM
  * Author: John
  * Board: Atmel SAML21 Xplained Pro
  * MCU: Microchip SAML21J18B
@@ -11,15 +11,15 @@
  */ 
 
 
-#ifndef ISR_TC0_H_
-#define ISR_TC0_H_
-
+#ifndef INIT_INTOSC_H_
+#define INIT_INTOSC_H_
 
 /****************************************************************
 						   Header Files
 ****************************************************************/
 #include "sam.h"
 #include "sys_def.h"
+#include "init_GCLK.h"
 
 
 /****************************************************************
@@ -30,7 +30,9 @@
 /****************************************************************
 						Function Prototype
 ****************************************************************/
-// Do not define Handler_TC0 here because its already defined 
-// in the sam.h header file.
+void init_IntOSC(uint32_t clk_hz, uint16_t divider);
 
-#endif /* ISR_TC0_H_ */
+
+
+
+#endif /* INIT_INTOSC_H_ */

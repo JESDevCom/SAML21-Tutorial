@@ -19,17 +19,17 @@ Description:
 	This function enables different 32KHz
 Use:
 	Input		| Value
-	OSCULP32KHz	| 4
-	OSC32KHz	| 5
-	XOSC32KHz	| 6
+	OSCULP32KHz	| 32001
+	OSC32KHz	| 32002
+	XOSC32KHz	| 32003
 ----------------------------------------------------------------------------------------------------*/	
-void init_32KHz(uint8_t clk_sel){
+void init_32KHz(uint32_t clk_src){
 	
 	// Calibrate OSC32K [if you don't your timer will not be very accurate]..
 	uint32_t calib = (*((uint32_t*)NVMCTRL_OTP5) & OSC32KCAL_MASK) >> OSC32KCAL_POS;
 				
-	switch(clk_sel){
-		case 5:
+	switch(clk_src){
+		case OSC32KHz:
 			// ----------------------- Configure OSC32K --------------------------------------- (Pg. 261) [1]
 			OSC32KCTRL->OSC32K.reg = (	OSC32KCTRL_OSC32K_ENABLE	  |	// Enable Int Oscillator
 										OSC32KCTRL_OSC32K_CALIB(calib)| // Calibrate OSC32K
@@ -37,7 +37,7 @@ void init_32KHz(uint8_t clk_sel){
 										OSC32KCTRL_OSC32K_STARTUP(6));	// 64 CC Startup Delay  (Pg. 232) [1]
 										while(OSC32KCTRL->STATUS.bit.OSC32KRDY == 0); //		(Pg. 256) [1]
 			break;
-		case 6:	
+		case XOSC32KHz:	
 			// ----------------------- Configure XOSC32K -------------------------------------- (Pg. 259) [1]
 			OSC32KCTRL->XOSC32K.reg =(	OSC32KCTRL_XOSC32K_ENABLE	|	// Enable Ext Oscillator
 										OSC32KCTRL_XOSC32K_XTALEN	|	// Enable Ext Input
@@ -49,7 +49,10 @@ void init_32KHz(uint8_t clk_sel){
 			// ----------------------- Configure OSCULP32K ------------------------------------ (Pg. 263) [1]
 			//  Enabled at startup by default.
 			break;
-	}	
+	}
+	
+	switch_cpu_source(clk_src); // switch source on GCLK0 for CPU to run at the new clock source.
+		
 }
 
 
@@ -60,16 +63,16 @@ Description:
 	This function stops different 32KHz clocks
 Use:
 	Input		| Value
-	OSC32KHz	| 5
-	XOSC32KHz	| 6
+	OSC32KHz	| 32002
+	XOSC32KHz	| 32003
 ----------------------------------------------------------------------------------------------------*/	
 
-void stop_32KHz(uint8_t clk_sel){
-	switch(clk_sel){
-		case 5:
+void stop_32KHz(uint32_t clk_src){
+	switch(clk_src){
+		case OSC32KHz:
 			OSC32KCTRL->OSC32K.bit.ENABLE = 0;
 			break;
-		case 6:
+		case XOSC32KHz:
 			OSC32KCTRL->XOSC32K.bit.ENABLE = 0;
 			break;
 		default:

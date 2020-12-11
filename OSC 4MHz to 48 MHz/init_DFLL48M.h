@@ -1,7 +1,7 @@
 /*
- * ISR_TC0.h
+ * init_DFLL48M.h
  *
- * Created: 12/2/2020 7:34:37 PM
+ * Created: 12/10/2020 2:59:08 PM
  * Author: John
  * Board: Atmel SAML21 Xplained Pro
  * MCU: Microchip SAML21J18B
@@ -11,26 +11,27 @@
  */ 
 
 
-#ifndef ISR_TC0_H_
-#define ISR_TC0_H_
-
+#ifndef INIT_DFLL48M_H_
+#define INIT_DFLL48M_H_
 
 /****************************************************************
-						   Header Files
+						  Header Files
 ****************************************************************/
 #include "sam.h"
 #include "sys_def.h"
-
+#include "init_GCLK.h"
+#include "init_32KHz.h"
 
 /****************************************************************
-						   Definitions
+						  Definitions
 ****************************************************************/
 
 
 /****************************************************************
-						Function Prototype
+				      Function Prototypes
 ****************************************************************/
-// Do not define Handler_TC0 here because its already defined 
-// in the sam.h header file.
+void init_DFLL48M(uint32_t ref_clk);
 
-#endif /* ISR_TC0_H_ */
+
+
+#endif /* INIT_DFLL48M_H_ */

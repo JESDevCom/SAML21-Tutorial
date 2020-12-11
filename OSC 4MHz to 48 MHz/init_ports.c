@@ -45,6 +45,6 @@ void init_ports(void){
 	PORT->Group[portb].PINCFG[13].bit.PMUXEN = 1;		// Enable Peripheral MUX
 	PORT->Group[portb].PMUX[13>>1].bit.PMUXO = PMUX_E;	// Set the PMUX (Pg. 28) [2]
 	
+	delayus_32bit(OSC4MHz, 400); // 400 [us] delay
 	
-	delay(1000); // delay for ports to setup
 }

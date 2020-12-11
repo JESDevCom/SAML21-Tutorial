@@ -19,12 +19,14 @@
 ****************************************************************/
 #include "sam.h"
 
+
 /****************************************************************
 				       Function Prototypes
 ****************************************************************/
-void delay(uint16_t value);
-
-
-
+void delayus_16bit(uint16_t CPU_Hz, uint16_t delay_us);
+void delayus_32bit(uint32_t CPU_Hz, uint32_t delay_us);
+void delayms_16bit(uint16_t CPU_Hz, uint16_t delay_ms);
+void delayms_32bit(uint32_t CPU_Hz, uint32_t delay_ms);
+void cycle_delay(uint32_t number_of_cycles);
 
 #endif /* DELAY_H_ */

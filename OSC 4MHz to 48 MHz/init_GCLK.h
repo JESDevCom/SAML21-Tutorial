@@ -1,7 +1,7 @@
 /*
- * ISR_TC0.h
+ * init_GCLK.h
  *
- * Created: 12/2/2020 7:34:37 PM
+ * Created: 12/10/2020 1:21:46 PM
  * Author: John
  * Board: Atmel SAML21 Xplained Pro
  * MCU: Microchip SAML21J18B
@@ -11,26 +11,27 @@
  */ 
 
 
-#ifndef ISR_TC0_H_
-#define ISR_TC0_H_
-
+#ifndef INIT_GCLK_H_
+#define INIT_GCLK_H_
 
 /****************************************************************
-						   Header Files
+						  Header Files
 ****************************************************************/
 #include "sam.h"
 #include "sys_def.h"
 
 
 /****************************************************************
-						   Definitions
+						  Definitions
 ****************************************************************/
 
 
 /****************************************************************
-						Function Prototype
+				      Function Prototypes
 ****************************************************************/
-// Do not define Handler_TC0 here because its already defined 
-// in the sam.h header file.
+void init_GCLK(uint32_t gen_num, uint32_t clk_src, uint16_t divider);
+void stop_GCLK(uint32_t gen_num);
+void switch_cpu_source(uint32_t clk_src);
 
-#endif /* ISR_TC0_H_ */
+
+#endif /* INIT_GCLK_H_ */

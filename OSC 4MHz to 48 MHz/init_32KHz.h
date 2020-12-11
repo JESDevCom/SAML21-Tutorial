@@ -18,29 +18,20 @@
 						   Header Files
 ****************************************************************/
 #include "sam.h"
+#include "sys_def.h"
+#include "init_GCLK.h"
 
 
 /****************************************************************
 						  Definitions
 ****************************************************************/
-#define OSC4MHz		0xFF & OSCCTRL_OSC16MCTRL_FSEL_4	// Val = 0
-#define OSC8MHz		0xFF & OSCCTRL_OSC16MCTRL_FSEL_8	// Val = 1
-#define OSC12MHz	0xFF & OSCCTRL_OSC16MCTRL_FSEL_12	// Val = 2
-#define OSC16MHz	0xFF & OSCCTRL_OSC16MCTRL_FSEL_16   // Val = 3
-#define OSCULP32KHz	4
-#define OSC32KHz	5
-#define XOSC32KHz	6
-#define OSC48MHz	255
 
-// Table 11-5 NVM Software Calibration Area Mapping (Pg. 45)
-#define OSC32KCAL_MASK				0x00001FC0
-#define OSC32KCAL_POS				6
 
 /****************************************************************
 					   Function Prototypes 
 ****************************************************************/
-void init_32KHz(uint8_t clk_sel);
-void stop_32KHz(uint8_t clk_sel);
+void init_32KHz(uint32_t clk_src);
+void stop_32KHz(uint32_t clk_src);
 
 
 
