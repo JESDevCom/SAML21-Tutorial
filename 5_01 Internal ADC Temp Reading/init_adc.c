@@ -10,18 +10,19 @@
  *
  * Description:
  *		We will be running the ADC to periodically read the temperature value.
- *		ADC must be triggered to perform a conversion. 
+ *		ADC will be initialized to one conversion per trigger (ie., non-continuous operation).
  *		Setup to average 16 readings before returning a complete conversion.
  *		Averaging done in hardware. Averaging does drop conversion speed.
  *
  * Hardware:
- *		F_CPU: 4MHz		
- *		F_ADC: F_CPU/8 =500KHz
+ *		F_CPU: 4 [MHz]		
+ *		F_ADC: F_CPU/8 =500 [KHz]
  *		Sampling Time (no avg): (63+1)/F_ADC = 128[us]
  *		Sampling Time (with avg): 16*(63+1)/F_ADC = 2.048 [ms]
  *		Conversion Rate (Max Theoretical) = 2048 [Samples/s]
- *		Supply Voltage (VDDIN) = 3.3V
- *		ADC Voltage Reference = 1.0V
+ *		Supply Voltage (VDDIN) = 3.3 [V]
+ *		ADC Voltage Reference = 1.0 [V]
+ *		Temperature Accuracy: +/- 5 [Celsius]
  *
  * Initialization Temp Sensor:
  *		[1] Connect ADC to a Clock Source
@@ -71,10 +72,13 @@ void init_adc(void){
 	// Disable ADC
 	ADC->CTRLA.bit.ENABLE = 0;
 	
+	// Calibrate (Pg. 978) [1]
+	ADC->CALIB.reg = ADC_CALIB_BIASCOMP(CAL_BIASCOMP) | ADC_CALIB_BIASREFBUF(CAL_BIASREFBUF);
+	
 	// Enable Reference
 	ADC->REFCTRL.reg = ADC_REFCTRL_REFSEL_INTREF;
 	
-	// Connect Temp Sensor to ADC
+	// Connect Temp Sensor to ADC (Pg. 961-2)
 	ADC->INPUTCTRL.reg = ADC_INPUTCTRL_MUXPOS_TEMP;
 	while(ADC->SYNCBUSY.bit.INPUTCTRL);
 	
@@ -96,9 +100,7 @@ void init_adc(void){
 	
 	// Averaging Samples (Pg. 966) [1]
 	ADC->AVGCTRL.reg = ADC_AVGCTRL_SAMPLENUM_16 | (ADC_AVGCTRL_ADJRES(0x4));
-	
-	// Calibrate (Pg. 978) [1]
-	ADC->CALIB.reg = ADC_CALIB_BIASCOMP(CAL_BIASCOMP) | ADC_CALIB_BIASREFBUF(CAL_BIASREFBUF);
+	while(ADC->SYNCBUSY.bit.AVGCTRL);
 		
 	// Setup Interrupt for Result Ready
 	NVIC_EnableIRQ(ADC_IRQn);
@@ -125,9 +127,49 @@ void disable_adc(void){
 	ADC->CTRLA.bit.ENABLE = 0;
 }
 
-/*
+
 void switch_adc_src_to_temp_sensor(void){
 	
+	// Disable Interrupt
+	NVIC_DisableIRQ(ADC_IRQn);
+	
+	// Disable ADC so we can write to Write-Protected Registers
+	disable_adc();
+	
+	// Enable Reference
+	ADC->REFCTRL.reg = ADC_REFCTRL_REFSEL_INTREF;
+		
+	// Connect Temp Sensor to ADC
+	ADC->INPUTCTRL.reg = ADC_INPUTCTRL_MUXPOS_TEMP;
+	while(ADC->SYNCBUSY.bit.INPUTCTRL);
+		
+	// Setup ADC Clock Divider
+	ADC->CTRLB.reg = ADC_CTRLB_PRESCALER_DIV8;
+		
+	// Setup Sampling Method (Pg. 964)
+	ADC->CTRLC.reg =   (ADC_CTRLC_WINMODE_DISABLE	| // No window mode
+	ADC_CTRLC_RESSEL_12BIT		| // 12-bit resolution
+	0 << ADC_CTRLC_CORREN_Pos	| // No Digital Result Correction
+	0 << ADC_CTRLC_LEFTADJ_Pos	| // Result is right-adjusted in RESULT reg
+	0 << ADC_CTRLC_FREERUN_Pos  | // Run Single Conversion Capture
+	0 << ADC_CTRLC_DIFFMODE_Pos );// Run Single
+	while(ADC->SYNCBUSY.bit.CTRLC);
+		
+	// Sampling Time (Pg. 967) [1]
+	ADC->SAMPCTRL.reg = ADC_SAMPCTRL_SAMPLEN(63);    // Number of ADC clock cycles a value is sampled for
+	while(ADC->SYNCBUSY.bit.SAMPCTRL);
+		
+	// Averaging Samples (Pg. 966) [1]
+	ADC->AVGCTRL.reg = ADC_AVGCTRL_SAMPLENUM_16 | (ADC_AVGCTRL_ADJRES(0x4));
+	while(ADC->SYNCBUSY.bit.AVGCTRL);
+	
+	// Re-Enable Interrupt for Result Ready
+	NVIC_EnableIRQ(ADC_IRQn);
+	ADC->INTENSET.reg = ADC_INTENSET_RESRDY;
+		
+	// Enable ADC
+	ADC->CTRLA.bit.ENABLE = 1;
+	while(ADC->SYNCBUSY.bit.ENABLE);
 }
-*/
+
 
