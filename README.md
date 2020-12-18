@@ -20,5 +20,5 @@ Part IV. UART
 1. Virtual COM Port Communication
 
 Part V. ADC
-1.
+1. Internal CPU Temp Reading
 
