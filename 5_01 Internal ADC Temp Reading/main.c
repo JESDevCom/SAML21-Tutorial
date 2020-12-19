@@ -28,11 +28,13 @@
  *				Data Memory Usage 		:	9416 bytes   23.0 % Full
  *
  * Conclusion:
- *		Temperature Sensor is reporting within specification of +/- 10 degrees Celsius (Pg. 1091)[1]; 
- *		however, it's not as accurate as I'd prefer. Testing: current room temp is 23.3 [C] or 74 [F], 
- *		and the sensor is reporting approximately 81 [F] or 27.22 [C].
- *
- *		Hence, we are within spec.. yay. If only radar guns had an accuracy range of +/- 10 MPH. 
+ *		Temperature Sensor is reporting within specification of +/- 10 degrees Celsius (Pg. 1091)[1].
+ *		The sensor did accurately read the room temp upon startup after the board had been off for 
+ *		22 hours. This is good!
+ * 
+ *		After Running For Several Hours I saw:
+ *		Current room temp is 23.3 [C] or 74 [F], and the sensor is reporting approximately 81 [F] or 27.22 [C].
+ *		So the chip does heat-up during operation.
  *
  * Resources:
  *		[1] SAM L21 Family Data Sheet
