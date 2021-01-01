@@ -57,8 +57,8 @@ void init_uart(uint64_t baud){
 	// Mode: Asynchronous, One Stop bit, No parity
 	SERCOM3->USART.CTRLA.reg = (SERCOM_USART_CTRLA_DORD		|	/* LSB is transmitted first			*/
 								SERCOM_USART_CTRLA_MODE(1)	|	/* USART with internal clock		*/		
-								SERCOM_USART_CTRLA_RXPO(1)	|	/* Receive  Data on SERCOM Pad 0	*/
-								SERCOM_USART_CTRLA_TXPO(0)	);	/* Transmit Data on SERCOM Pad 1	*/
+								SERCOM_USART_CTRLA_RXPO(1)	|	/* Receive  Data on SERCOM Pad 1	*/
+								SERCOM_USART_CTRLA_TXPO(0)	);	/* Transmit Data on SERCOM Pad 0	*/
 								
 	SERCOM3->USART.CTRLB.reg = (SERCOM_USART_CTRLB_RXEN		|
 								SERCOM_USART_CTRLB_TXEN		|
