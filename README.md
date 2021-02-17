@@ -1,5 +1,5 @@
 # SAML21-Tutorial
-Collection of Coding Projects for a Microchip SAML21
+Collection of Coding Projects for a Microchip SAML21 Xplained Pro Development Board
 
 Part I. CPU Clock
 1. OSC 4MHz to 16MHz
