@@ -22,3 +22,5 @@ Part IV. UART
 Part V. ADC
 1. Internal ADC Temp Reading
 
+Part VI. USB
+1. COM Port 
